@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+EXPORT_FILEPATH_LINUX="$HOME/.bashrc"
+EXPORT_FILEPATH_MAC="$HOME/.bash_profile"
+EXPORT_START=$(echo "# EXPORT PATH START")
+EXPORT_END=$(echo "# EXPORT PATH END")
+
+# see if composer is installed, throw error if not.
+if ! [ -x "$(command -v composer)" ]; then
+  printf "Error: composer is not installed. Are you in the right environment?\n"
+  exit 1
+fi
+
+# install the laravel installer
+#composer global require "laravel/installer"
+
+# detect if ~/.bashrc exists (linux)
+if [ -f "$EXPORT_FILEPATH_LINUX" ]; then
+    EXPORTFILENAME="${EXPORT_FILEPATH_LINUX}"
+    printf "Found ${EXPORTFILENAME}\n"
+    EXPORT='export PATH="$HOME/.composer/vendor/bin:$PATH"'
+fi
+
+# detect if ~/.bash_profile exists (mac os)
+if [ -f "${EXPORT_FILEPATH_MAC}" ]; then
+    EXPORTFILENAME="${EXPORT_FILEPATH_MAC}"
+    printf "Found ${EXPORTFILENAME}\n"
+    EXPORT='export PATH="$HOME/.composer/vendor/bin:$PATH"'
+fi
+
+if [ EXPORTFILENAME == '' ]; then
+    printf "Could not locate export path file. \n"
+    EXPORTFILENAME='~/.testbash'
+    EXPORT='export PATH="$HOME/.composer/vendor/bin:$PATH"'
+    touch $EXPORTFILENAME
+fi
+
+# Delete old export PATH first
+sed -i'' -e "/${EXPORT_START}/,/${EXPORT_END}/d" "${EXPORTFILENAME}"
+
+# build new export PATH
+EXPORT_CONF="${EXPORT_START}\n"
+EXPORT_CONF="${EXPORT_CONF}${EXPORT}\n${EXPORT_END}"
+
+# add to bash profile
+printf "${EXPORT_CONF}" >> "${EXPORTFILENAME}"
+
+# Test
+printf "Your path is now: ${PATH}\n"
+
+# source the file again
+source $EXPORTFILENAME
+
+exit 1
