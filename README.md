@@ -1,6 +1,6 @@
 # Laravel
 
-For now just a quite install/config guide to get started with Laravel.
+For now just a quick install/config guide to get started with Laravel.
 
 ### Requirements
 
