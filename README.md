@@ -1,8 +1,28 @@
 # Laravel
 
-For now just a quick install/config guide to get started with Laravel.
+Just a quick install/config guide to get started with Laravel (using DockerLocal).
 
-### Requirements
+### Quick Install (New Project)
+
+If just want to get a NEW Laravel app running with [DockerLocal](https://github.com/amurrell/DockerLocal), do the following:
+
+```
+cd DockerLocal/commands
+./site-up
+./site-ssh -h=web
+cd site/commands
+./install-laravel-installer
+cd ../
+laravel new app
+```
+
+Now you can add your own git remote and save this as your own repository for working on this new project "app".
+
+**TIP:** Read the readme in `DockerLocal/` to learn how to use [DockerLocal](https://github.com/amurrell/DockerLocal). to up, down, or ssh into your project.
+
+---
+
+### Laravel Requirements
 
 - PHP >= 7.0.0
 - OpenSSL PHP Extension
@@ -10,20 +30,6 @@ For now just a quick install/config guide to get started with Laravel.
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
 - XML PHP Extension
-
----
-
-## New Project
-
-You only need to setup the laravel installer if you are making a NEW laravel project.
-
-Make sure your environment has composer and then run the following to use the **Laravel Installer**.
-
-- If using DockerLocal, `cd DockerLocal/commands && ./site-ssh -h=web` to ssh into your web container, which has composer.
-
-- If your project has `commands/install-laravel-installer`, use that to automatically do the following steps.
-
-**TIP:** Read the readme in `DockerLocal/`
 
 ---
 
@@ -103,3 +109,38 @@ laravel new app-folder-name
 - make sure that app/storage and app/bootstrap are chmod 777 so that laravel can write to them.
 
 ---
+
+### App is running, run migrate scripts
+
+Test your database connection by running the migration scripts (resources/database/migrations) (after editing your app/.env file to db connection info).
+
+```
+cd your-laravel-project
+php artisan migrate
+```
+---
+
+### IDE helper (dev)
+
+To get the best IDE doc support, use the IDE helper: https://github.com/barryvdh/laravel-ide-helper
+
+```
+#ssh into your DockerLocal project where composer is installed: cd DockerLocal/commands && ./site-ssh -h=web
+composer require --dev barryvdh/laravel-ide-helper
+```
+
+And register it in non-production environments in `app/Providers/AppServiceProvider.php` in the `register` method:
+
+```
+if ($this->app->environment() !== 'production') {
+    $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+}
+```
+
+Generate Docs:
+
+```
+php artisan clear-compiled #clears whats in bootstrap/compiled.php
+php artisan ide-helper:generate # generate the docs
+php artisan optimize #run after to optimize it
+```
