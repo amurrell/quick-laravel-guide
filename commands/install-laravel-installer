@@ -12,7 +12,7 @@ if ! [ -x "$(command -v composer)" ]; then
 fi
 
 # install the laravel installer
-#composer global require "laravel/installer"
+composer global require "laravel/installer"
 
 # detect if ~/.bashrc exists (linux)
 if [ -f "$EXPORT_FILEPATH_LINUX" ]; then
@@ -50,5 +50,3 @@ printf "Your path is now: ${PATH}\n"
 
 # source the file again
 source $EXPORTFILENAME
-
-exit 1

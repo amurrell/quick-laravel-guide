@@ -11,7 +11,7 @@ cd DockerLocal/commands
 ./site-up
 ./site-ssh -h=web
 cd site/commands
-./install-laravel-installer
+. ./install-laravel-installer
 cd ../
 laravel new app
 ```
