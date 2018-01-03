@@ -6,6 +6,8 @@ Just a quick install/config guide to get started with Laravel (using DockerLocal
 
 If just want to get a NEW Laravel app running with [DockerLocal](https://github.com/amurrell/DockerLocal), do the following:
 
+**TIP**: If you do not have a DockerLocal/commands, you may need to manually fetch the git submodule: `git submodule update --init --recursive`
+
 ```
 cd DockerLocal/commands
 ./site-up

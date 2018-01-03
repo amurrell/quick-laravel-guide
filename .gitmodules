@@ -1,0 +1,3 @@
+[submodule "DockerLocal"]
+	path = DockerLocal
+	url = git@github.com:amurrell/DockerLocal.git
