@@ -22,6 +22,17 @@ Now you can add your own git remote and save this as your own repository for wor
 
 **TIP:** Read the readme in `DockerLocal/` to learn how to use [DockerLocal](https://github.com/amurrell/DockerLocal). to up, down, or ssh into your project.
 
+Change `DockerLocal/nginx.site.conf` root path to `/var/www/site/yourappfolder/public` and restart.
+
+```
+cd DockerLocal
+# nano nginx.site.conf
+cd commands
+./site-down && ./site-up
+```
+
+**TIP:** Change permissions on your app folder from your host machine: `chmod 777 yourapp -R` (with dockerlocal, for local dev only) so that laravel has write access to storage and logging files.
+
 ---
 
 ### Laravel Requirements

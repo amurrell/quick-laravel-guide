@@ -8,7 +8,7 @@ EXPORT_END=$(echo "# EXPORT PATH END")
 # see if composer is installed, throw error if not.
 if ! [ -x "$(command -v composer)" ]; then
   printf "Error: composer is not installed. Are you in the right environment?\n"
-  exit 1
+  kill -INT $$
 fi
 
 # install the laravel installer
@@ -50,3 +50,10 @@ printf "Your path is now: ${PATH}\n"
 
 # source the file again
 source $EXPORTFILENAME
+
+# see if laravel is installed, throw error if not.
+if ! [ -x "$(command -v laravel)" ]; then
+  printf "Error: laravel is not installed. Run the script with dot space dot slash! [. ./install-laravel-installer]\n"
+  kill -INT $$
+fi
+
