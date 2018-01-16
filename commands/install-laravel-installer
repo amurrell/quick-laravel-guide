@@ -55,5 +55,7 @@ source $EXPORTFILENAME
 if ! [ -x "$(command -v laravel)" ]; then
   printf "Error: laravel is not installed. Run the script with dot space dot slash! [. ./install-laravel-installer]\n"
   kill -INT $$
+else
+  printf "Laravel command successfully installed!\n"
 fi
 

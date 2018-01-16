@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# update dockerlocal
+./install-git-submodules
+cd ../DockerLocal/commands
+
+# start up containers
+./site-up
+
+# run installer, create app (happens as root)
+./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
+./site-ssh -h=web -c="cd /var/www/site/ && laravel new app"
+./site-ssh -h=web -c='chmod 777 /var/www/site/app/storage -R'
+./site-ssh -h=web -c='chmod 777 /var/www/site/app/bootstrap -R'
+
+# get back to repo root and change app folder ownership
+cd ../../ && sudo chown $(whoami):$(whoami) app/ -R
+
+# nginx.site.conf
+cd DockerLocal && sed -i'.bak' "s/\/html/\/app\/public/g;" nginx.site.conf
+rm -f "${FILE}.bak"
+cd commands
+
+# refresh nginx.site.conf
+./site-up
+
+# set back to quick-laravel-guide/commands
+cd ../../commands
