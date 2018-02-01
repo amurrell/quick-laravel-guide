@@ -1,11 +1,29 @@
 #!/usr/bin/env bash
 
-# update dockerlocal
+# get options
+P=$(sed -e 's#.*\-p=\([^\-]*\).*#\1#' <<< "$1$2")
+C=$(sed -e 's#.*\-c=\([^\-]*\).*#\1#' <<< "$1$2")
+
+## p
+if [ ! "$P" == "$1$2" ]; then
+    WEB_PORT=$P
+fi
+
+## c for create database
+# update dockerlocal & add port if applicable
 ./install-git-submodules
-cd ../DockerLocal/commands
+cd ../DockerLocal
+if [ ! "$WEB_PORT" == "" ]; then
+    echo "${WEB_PORT}" > port
+fi
+cd commands
 
 # start up containers
-./site-up
+if [ ! "$C" == "$1$2" ]; then
+    ./site-up -c=$C
+else
+    ./site-up
+fi
 
 # run installer, create app (happens as root)
 ./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
@@ -24,5 +42,10 @@ cd commands
 # refresh nginx.site.conf
 ./site-up
 
+# (in DockerLocal/commands)
+
 # set back to quick-laravel-guide/commands
 cd ../../commands
+
+# set .env up with db entries
+./show-db-envvars
