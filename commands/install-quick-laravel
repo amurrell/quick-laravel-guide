@@ -27,7 +27,7 @@ fi
 
 # run installer, create app (happens as root)
 ./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
-./site-ssh -h=web -c="cd /var/www/site/ && laravel new app"
+./site-ssh -h=web -c="cd /var/www/site/ && composer create-project --prefer-dist laravel/laravel=5.4.* app"
 ./site-ssh -h=web -c='chmod 777 /var/www/site/app/storage -R'
 ./site-ssh -h=web -c='chmod 777 /var/www/site/app/bootstrap -R'
 
