@@ -13,7 +13,8 @@ fi
 # update dockerlocal & add port if applicable
 ./install-git-submodules
 cd ../DockerLocal
-git checkout -b PHP-7.2 origin/PHP-7.2
+git checkout -b PHP-7.3 origin/PHP-7.3 | grep 'exists' &> /dev/null
+git checkout PHP-7.3
 
 if [ ! "$WEB_PORT" == "" ]; then
     echo "${WEB_PORT}" > port
@@ -29,7 +30,7 @@ fi
 
 # run installer, create app (happens as root)
 ./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
-./site-ssh -h=web -c="cd /var/www/site/ && composer create-project --prefer-dist laravel/laravel=5.6.* app"
+./site-ssh -h=web -c="cd /var/www/site/ && composer create-project --prefer-dist laravel/laravel=5.8.* app"
 ./site-ssh -h=web -c='chmod 777 /var/www/site/app/storage -R'
 ./site-ssh -h=web -c='chmod 777 /var/www/site/app/bootstrap -R'
 

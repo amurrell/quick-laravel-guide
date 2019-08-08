@@ -26,6 +26,8 @@ cd yourproject/commands
 ./install-quick-laravel
 ```
 
+You can run `./install-quick-laravel -c=database_name -p=3002` for a database and port to get created with it. You can use [ProxyLocal](https://github.com/amurrell/ProxyLocal), too. 
+
 Now you can add your own git remote and save this as your own repository for working on this new project "app".
 
 ```
