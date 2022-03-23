@@ -30,6 +30,11 @@ if [ ! "$M" == "$1$2$3$4$5" ]; then
     DB_IMAGE=$M
 fi
 
+## l (db_image)
+if [ ! "$L" == "$1$2$3$4$5" ]; then
+    LARAVEL_VERSION=$L
+fi
+
 ## c for create database
 # update dockerlocal & add port if applicable
 ./install-git-submodules
@@ -75,10 +80,13 @@ fi
 # If app exists already:
 if [ -d "${PROJECT_DIR}/app" ]; then
 
+    printf "===== EXISTING APP FOLDER: Running Composer Install\n"
     # using an existing laravel app
     ./site-ssh -h=web -c="cd /var/www/site/app && composer install"
 
 else
+
+    printf "===== INSTALLING LARAVEL:\n"
     # creating laravel app by running the installer, create app (happens as root)
     ./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
     ./site-ssh -h=web -c="cd /var/www/site/ && composer create-project --prefer-dist laravel/laravel=${LARAVEL_VERSION} app"

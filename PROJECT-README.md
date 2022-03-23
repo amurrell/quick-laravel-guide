@@ -38,6 +38,9 @@ Ensure you have met these DockerLocal requirements.
 git clone [your repo] yourproject
 cd yourproject/commands
 ./install-quick-laravel # see options!
+
+# this is an example
+# ./install-quick-laravel -p=3030 -v=8.0 -m=mariadb:10.6
 ```
 
 ### Install Command Options
@@ -54,6 +57,8 @@ Defaults are: `no db; port 3000; php 7.4; mariadb:10.5.8` - note that mariadb wo
 ./install-quick-laravel -c=database_name -p=3002 -v=7.3                     # setup a db; use port 3002; use php 7.3
 ./install-quick-laravel -c=database_name -p=3002 -v=7.3 -m=mysql            # setup a db; use port 3002; use php 7.3; use docker image mariadb at version 10.6
 ```
+
+> Note: You need to escape `*` chars in commands with a `\` - may be relevant in mysql/mariadb versioning
 
 For local DNS (to run your sites like docker.mysite.com locally), you can use [ProxyLocal](https://github.com/amurrell/ProxyLocal).
 

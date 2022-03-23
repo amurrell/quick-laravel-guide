@@ -64,6 +64,9 @@ If you just want to get a **NEW** Laravel app running with [DockerLocal](https:/
 git clone git@github.com:amurrell/quick-laravel-guide.git yourproject
 cd yourproject/commands
 ./install-quick-laravel # wait! see options!
+
+# this is an example
+# ./install-quick-laravel -l=9.\* -p=3030 -v=8.0 -m=mariadb:10.6
 ```
 
 > Skip to [Install Options](#install-command-options)
@@ -99,12 +102,14 @@ You can use any of these options, together, or seperate.
 Defaults are: `laravel 8.*; no db; port 3000; php 7.4; mariadb:10.5.8` - note that mariadb works for m1 chips, mysql does not.
 
 ```
-./install-quick-laravel -l=5.8.*                                            # install laravel to this version
+./install-quick-laravel -l=5.8.\*                                            # install laravel to this version
 ./install-quick-laravel -c=database_name                                    # setup a db;
 ./install-quick-laravel -c=database_name -p=3002                            # setup a db; use port 3002
 ./install-quick-laravel -c=database_name -p=3002 -v=7.3                     # setup a db; use port 3002; use php 7.3
 ./install-quick-laravel -c=database_name -p=3002 -v=7.3 -m=mysql            # setup a db; use port 3002; use php 7.3; use docker image mariadb at version 10.6
 ```
+
+> Note: You need to escape `*` chars in commands with a `\`
 
 For local DNS (to run your sites like docker.mysite.com locally), you can use [ProxyLocal](https://github.com/amurrell/ProxyLocal).
 
