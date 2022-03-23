@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 
-CMD_CAT="cat ../DockerLocal/env-custom.yml"
-CMD_SWAP="sed -r 's/:\s/=/g'"
+# Store contents in file temporarily.
+CMD_CAT=$(cat ../DockerLocal/env-custom.yml)
+echo "${CMD_CAT}" > temp-env.yml
 
-printf "Copy the following into app/.env to ensure artisan and your app connect to your database correctly.\n\n"
-eval "${CMD_CAT} | ${CMD_SWAP} | sed -n '/\bDB_HOST\b/p'"
-eval "${CMD_CAT} | ${CMD_SWAP} | sed -n '/\bDB_PORT\b/p'"
-eval "${CMD_CAT} | ${CMD_SWAP} | sed -n '/\bDB_DATABASE\b/p'"
-eval "${CMD_CAT} | ${CMD_SWAP} | sed -n '/\bDB_USERNAME\b/p'"
-eval "${CMD_CAT} | ${CMD_SWAP} | sed -n '/\bDB_PASSWORD\b/p'"
+# Format from env[VAR]: something -> VAR=something
+sed -i'.bak' 's/env\[\(.*\)]: /\1=/g;' temp-env.yml
+rm "temp-env.yml.bak"
+
+# Print out what needs to be copied
+printf "===== COPY DB vars to app/.env - Copy the following into app/.env to ensure artisan and your app connect to your database correctly.\n\n"
+eval "cat temp-env.yml | grep '^DB_HOST='"
+eval "cat temp-env.yml | grep '^DB_PORT='"
+eval "cat temp-env.yml | grep '^DB_DATABASE='"
+eval "cat temp-env.yml | grep '^DB_USERNAME='"
+eval "cat temp-env.yml | grep '^DB_PASSWORD='"
+
+# Remove temp file
+rm temp-env.yml
