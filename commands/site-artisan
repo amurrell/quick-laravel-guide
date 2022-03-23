@@ -25,7 +25,7 @@ if [ ! -f  "site-ssh" ]; then
   exit
 fi
 
-WEB_SERVER_ROOT='/var/www/site/app'
+WEB_SERVER_ROOT='/var/www/site/app/public'
 WEB_SERVER_ROOT_FILE="../web-server-root"
 
 if [ ! -f  "${WEB_SERVER_ROOT_FILE}" ]; then
@@ -36,4 +36,4 @@ fi
 # ./site-ssh -h=web -c="cd ${WEB_SERVER_ROOT} && su -l www-data -s /bin/bash"
 
 # using sudo, adjusts home folder properly
-./site-ssh -h=web -c="cd ${WEB_SERVER_ROOT} && sudo -H -u www-data bash"
+./site-ssh -h=web -c="cd ${WEB_SERVER_ROOT} && cd ../ && sudo -H -u www-data bash"

@@ -64,7 +64,7 @@ cp "$CURRENT_DIR/site-tinker" ./ && chmod +x site-tinker
 cp "$CURRENT_DIR/site-artisan" ./ && chmod +x site-artisan
 
 # start up containers
-if [ ! "$C" == "$1$2" ]; then
+if [ ! "$C" == "$1$2$3$4" ]; then
     ./site-up -c=$C
 else
     ./site-up
