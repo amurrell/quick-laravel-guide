@@ -18,12 +18,12 @@ Create or maintain laravel apps with alternative **local development tool [Docke
     - [Existing Laravel Project?](#existing-laravel-project)
     - [Install Command Options](#install-command-options)
     - [Add your own Repo](#add-your-own-repo)
-- [Guide](GUIDE.md)
 - [Reference](REFERENCE.md)
     - [DockerLocal Commands](REFERENCE.md#dockerlocal-commands)
         - [Tinker](REFERENCE.md#tinker)
         - [Artisan](REFERENCE.md#artisan)
     - [IDE Helper](REFERENCE.md#ide-helper-dev)
+    - [Manual Guide](GUIDE.md)
 
 ---
 
@@ -143,11 +143,11 @@ git remote -v #list them all again
 
 ## Project Config Requirements:
 
-- make sure you copy app/.env-example to .env
-- make sure you add a 32 char length random string to .env under app_key via `php artisan key:generate`, if it is missing - newer version of laravel do this for you as a post composer command.
-- make sure your nginx root path is pointing to the app/public folder (DockerLocal is /var/www/site/app/public)
-- make sure your nginx root path is pointing to the app/public folder (DockerLocal is /var/www/site/app/public)
-- make sure that app/storage and app/bootstrap are chmod 777 so that laravel can write to them.
+- make sure you copy `app/.env-example` to `.env`
+- make sure you add a 32 char length random string to `.env` under app_key via `php artisan key:generate`, if it is missing
+    - newer versions of laravel do this for you as a post composer command.
+- make sure your nginx root path is pointing to the `app/public` folder (the installer will set it in DockerLocal/web-server-root with `/var/www/site/app/public`, where it is relative to the container's path, not your computer)
+- make sure that `app/storage` and `app/bootstrap` are `chmod 777` so that laravel can write to them. (The installer does this for you, in the Docker container)
 
 ---
 

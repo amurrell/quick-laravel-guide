@@ -18,6 +18,7 @@ It is encouraged to update this readme!
         - [Artisan](REFERENCE.md#artisan)
     - [IDE Helper](REFERENCE.md#ide-helper-dev)
     - [Quick Laravel Installer](REFERENCE.md#quick-laravel-installer)
+    - [Manual Guide](GUIDE.md)
 
 ---
 
