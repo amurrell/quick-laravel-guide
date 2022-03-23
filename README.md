@@ -1,32 +1,18 @@
 # Quick Laravel Guide
 
-Just a quick install/config guide to create a laravel app wih alternative local development tool DockerLocal.
+A quick install guide to create a laravel app wih alternative **local development tool [DockerLocal](https://github.com/amurrell/DockerLocal)**.
 
-Ideal for:
+### Ideal for:
 
-- setting up a new laravel app using an alternative solution (docker containers) for local development
+- setting up a new laravel app with an **alternative solution (docker containers) for local development**
 - **linux** users who cannot use the mac only tools to spin up laravel projects quick
-- continuing to use the DockerLocal containers to work on your project, potentially with a small team of engineers using mac or ubuntu
-
-Comes with:
-
-- Initializing scripts to setup a new laravel app with DockerLocal
-    - Installs gitmodule DockerLocal, uses Dockerlocal to install composer, runs composer in Docker web container
-    - Changes permissions on app/storage and app/bootstrap
-    - Local Development via DockerLocal -
-        - Pre-loaded with laravel (8) requirements (exts: OpenSSL, PDO, Mbstring, Tokenizer, XML)
-        - Fully [customizeable DockerFile](https://github.com/amurrell/DockerLocal#dockerlocaldockerfile-template)
-        - Defaulted, but easily customizable:
-            - [Ubuntu 20.04]()
-            - PHP7.4
-            - MariaDb 10.5.8
-        - Easy scripts to start, stop, import/export databases, ssh into any container (mysql, web, etc)
-
+- support **a team of engineers with local development tooling** - running mac or linux (tested with ubuntu)
 
 ---
 
 ## Contents
 
+- [Comes with...]()
 - [Quickest Install](#quickest-install-new-project)
     - [DockerLocal Reqs](#dockerlocal-requirements)
     - [Install Command Options](#install-command-options)
@@ -37,6 +23,26 @@ Comes with:
         - [Tinker](REFERENCE.md#tinker)
         - [Artisan](REFERENCE.md#artisan)
     - [IDE Helper](REFERENCE.md#ide-helper-dev)
+
+---
+
+## Comes with:
+
+### Initializing scripts to setup a new laravel app with DockerLocal
+
+- Installs gitmodule DockerLocal, uses Dockerlocal to install composer, runs composer in Docker web container
+- Changes permissions on app/storage and app/bootstrap
+
+### Local Development via DockerLocal
+- Pre-loaded with laravel (8) requirements (exts: OpenSSL, PDO, Mbstring, Tokenizer, XML)
+- Fully [customizeable DockerFile](https://github.com/amurrell/DockerLocal#dockerlocaldockerfile-template)
+- Defaulted, but easily customizable:
+    - [Ubuntu 20.04]()
+    - PHP7.4
+    - MariaDb 10.5.8
+- Easy scripts to start, stop, import/export databases, ssh into any container (mysql, web, etc)
+
+[↑](#contents)
 
 ---
 

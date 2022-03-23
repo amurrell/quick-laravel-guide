@@ -39,7 +39,7 @@ Test is out, type `echo $PATH` in terminal
 
 ---
 
-### Example 1: Using DockerLocal for environment (with composer installed) and manual steps
+### Example 1: Using DockerLocal for local dev (with composer installed) and manual steps
 
 ```
 cd code/my-project/DockerLocal/commands && ./site-up && ./site-ssh -h=web
@@ -55,6 +55,10 @@ laravel new app
 # change nginx.site.conf to point to /var/www/site/app/public && ./site-up
 # change permissions on app/storage and app/bootstrap to 777
 ```
+
+[← README.md](README.md#contents)
+
+---
 
 ### Example 2: Using DockerLocal ... & install-Laravel-Installer but not install-quick-laravel
 
@@ -72,6 +76,8 @@ laravel new app-folder-name
 # change nginx.site.conf to point to /var/www/site/app/public && ./site-up
 # change permissions on app/storage and app/bootstrap to 777
 ```
+
+[← README.md](README.md#contents)
 
 ---
 
