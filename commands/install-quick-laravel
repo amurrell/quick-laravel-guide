@@ -1,25 +1,67 @@
 #!/usr/bin/env bash
 
+CURRENT_DIR=$(pwd)
+PROJECT_DIR="$(cd ../ && pwd)"
+
 # get options
-P=$(sed -e 's#.*\-p=\([^\-]*\).*#\1#' <<< "$1$2")
-C=$(sed -e 's#.*\-c=\([^\-]*\).*#\1#' <<< "$1$2")
+P=$(sed -e 's#.*\-p=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
+C=$(sed -e 's#.*\-c=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
+V=$(sed -e 's#.*\-v=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
+M=$(sed -e 's#.*\-m=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
+
+# defaults
+PHP_VERSION=7.4
+DB_IMAGE=mariadb:10.5.8
 
 ## p
-if [ ! "$P" == "$1$2" ]; then
+if [ ! "$P" == "$1$2$3$4" ]; then
     WEB_PORT=$P
+fi
+
+## v (PHP)
+if [ ! "$V" == "$1$2$3$4" ]; then
+    PHP_VERSION=$V
+fi
+
+## m (db_image)
+if [ ! "$V" == "$1$2$3$4" ]; then
+    DB_IMAGE=$M
 fi
 
 ## c for create database
 # update dockerlocal & add port if applicable
 ./install-git-submodules
 cd ../DockerLocal
-git checkout -b PHP-7.3 origin/PHP-7.3 | grep 'exists' &> /dev/null
-git checkout PHP-7.3
+# We can be on master now
+# git checkout -b PHP-7.4 origin/PHP-7.4 | grep 'exists' &> /dev/null
+# git checkout PHP-7.4
 
+# Setup DockerLocal
+## PORT
 if [ ! "$WEB_PORT" == "" ]; then
     echo "${WEB_PORT}" > port
 fi
+
+## VERSION (PHP)
+if [ ! "$PHP_VERSION" == "" ]; then
+    echo "${PHP_VERSION}" > versions/override-php-version
+fi
+## VERSION (PHP)
+if [ ! "$DB_IMAGE" == "" ]; then
+    echo "${DB_IMAGE}" > versions/override-db-image
+fi
+
+## web-server-root (for laravel, relative to dockerlocal web container)
+echo "/var/www/site/app/public" > "web-server-root"
+
+# Run DockerLocal
 cd commands
+
+# Copy site-tinker && make it executable
+cp "$CURRENT_DIR/site-tinker" ./ && chmod +x site-tinker
+
+# Copy site-artisan && make it executable
+cp "$CURRENT_DIR/site-artisan" ./ && chmod +x site-artisan
 
 # start up containers
 if [ ! "$C" == "$1$2" ]; then
@@ -37,18 +79,8 @@ fi
 # get back to repo root and change app folder ownership
 cd ../../ && sudo chown $(whoami):$(whoami) app/ -R
 
-# nginx.site.conf
-cd DockerLocal && sed -i'.bak' "s/\/html/\/app\/public/g;" nginx.site.conf
-rm -f "${FILE}.bak"
-cd commands
-
-# refresh nginx.site.conf
-./site-up
-
-# (in DockerLocal/commands)
-
 # set back to quick-laravel-guide/commands
-cd ../../commands
+cd commands
 
 # set .env up with db entries
 ./show-db-envvars

@@ -1,0 +1,32 @@
+.*
+!.gitignore
+!.gitmodules
+!.jshintrc
+!.jshintrc-src
+!.php_cs
+!.env.example
+!.php_cs_docker
+log/*
+php_sessions/*
+html/nginx.conf
+node_modules
+app/logs/*
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Thumbs.db
+
+# Local Development Related #
+######################
+!DockerLocal
+DockerLocal/commands/site-tinker
+
+# Misc #
+######################
+
+# Laravel #
+######################
+app/storage/debugbar/
+node_modules
