@@ -41,7 +41,7 @@ cd yourproject/commands
 
 ### Install Command Options
 
-An admin should tell you these options or edit this readme with the specific choices made to initalize this project.
+A project admin should tell you these options or edit this readme with the specific choices made to initalize this project.
 
 However, you can use any of these options, together, or seperate.
 
@@ -93,6 +93,8 @@ git remote -v #list all remotes again to see origin and me
 - make sure your nginx root path is pointing to the app/public folder (DockerLocal is /var/www/site/app/public)
 - make sure that app/storage and app/bootstrap are chmod 777 so that laravel can write to them.
 
+[↑](#contents)
+
 ---
 
 ### App is running, run migrate scripts
@@ -105,3 +107,33 @@ cd your-repo/DockerLocal/commands
 cd app
 php artisan migrate
 ```
+
+[↑](#contents)
+
+---
+
+### Shutdown & Startup
+
+You can turn this project off with: `./site-down`
+
+Turn the project on again with: `./site-up` (note, [re-run nvm-pm2](https://github.com/amurrell/DockerLocal#dockerlocalecosystemconfigjs) if using that)
+
+In addition, see other [common DockerLocal commands](REFERENCE.md#dockerlocal-commands).
+
+**Troubleshoot**
+
+1. Try `./site-down` before doing `./site-up`
+
+    If you run into issues not being able to ./site-up without errors or containers failing, then run `./site-down` first.
+
+    Sometimes even though it seems like DockerLocal is off (ex: from rebooting your machine), not all containers were properly shutdown (like ones controlling shared volumes and network bridge.) Doing a `./site-down` will ensure that everything got turned off and can then be turned back on.
+
+2. Try `./site-up` twice
+
+    If you have ran `./site-down` and your `./site-up` command fails, try running `./site-up` one more time, after confirming that your ProxyLocal is running.
+
+    This could be needed due to both your ProxyLocal and DockerLocal being shut off. The site-up command will try to bring ProxyLocal back up for you.
+
+    This could create a race condition where DockerLocal is trying to load before ProxyLocal is fully done starting.
+
+[↑](#contents)

@@ -1,12 +1,12 @@
 # Quick Laravel Guide
 
-A quick install guide to create a laravel app with alternative **local development tool [DockerLocal](https://github.com/amurrell/DockerLocal)**.
+Create or maintain laravel apps with alternative **local development tool [DockerLocal](https://github.com/amurrell/DockerLocal)**.
 
 ### Ideal for:
 
-- setting up a new laravel app with an **alternative solution (docker containers) for local development**
+- setting up a new or existing laravel apps with an **alternative solution (docker containers) for local development**
 - **linux** users who cannot use the mac only tools to spin up laravel projects quick
-- support **a team of engineers with local development tooling** - running mac or linux (tested with ubuntu)
+- support **a team of engineers with local development tooling** - running mac (tested with Catalina) or linux (tested with ubuntu)
 
 ---
 
@@ -29,19 +29,22 @@ A quick install guide to create a laravel app with alternative **local developme
 
 ## Comes with:
 
-### Initializing scripts to setup a new laravel app with DockerLocal
+### Initializing scripts to setup a new or existing laravel app with DockerLocal
 
 - Installs gitmodule DockerLocal, uses Dockerlocal to install composer, runs composer in Docker web container
-- Changes permissions on app/storage and app/bootstrap
+- Sets up local environment [with options you give it](#install-command-options) for:
+    - laravel version (if new app),
+    - PHP version,
+    - MariaDB or Mysql docker image & version
+- Handles 777 permissions on app/storage and app/bootstrap - and proper chownership of files
+- Adds `site-tinker` and `site-artisan` commands to DockerLocal commands
 
 ### Local Development via DockerLocal
 - Pre-loaded with laravel (8) requirements (exts: OpenSSL, PDO, Mbstring, Tokenizer, XML)
 - Fully [customizeable DockerFile](https://github.com/amurrell/DockerLocal#dockerlocaldockerfile-template)
-- Defaulted, but easily customizable:
-    - [Ubuntu 20.04]()
-    - PHP7.4
-    - MariaDb 10.5.8
-- Easy scripts to start, stop, import/export databases, ssh into any container (mysql, web, etc)
+- [Versioning is easily customizable](https://github.com/amurrell/DockerLocal#version-overrides): PHP, Ubuntu, DB image (mysql/mariadb)
+- Set PHP env vars, custom nginx file, etc. - [See Documentation](https://github.com/amurrell/DockerLocal#contents).
+- [Easy commands](https://github.com/amurrell/DockerLocal#commands) to start, stop, import/export databases, ssh into any container (mysql, web, etc)
 
 [↑](#contents)
 
