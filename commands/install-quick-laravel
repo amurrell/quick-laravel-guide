@@ -4,27 +4,29 @@ CURRENT_DIR=$(pwd)
 PROJECT_DIR="$(cd ../ && pwd)"
 
 # get options
-P=$(sed -e 's#.*\-p=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
-C=$(sed -e 's#.*\-c=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
-V=$(sed -e 's#.*\-v=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
-M=$(sed -e 's#.*\-m=\([^\-]*\).*#\1#' <<< "$1$2$3$4")
+P=$(sed -e 's#.*\-p=\([^\-]*\).*#\1#' <<< "$1$2$3$4$5")
+C=$(sed -e 's#.*\-c=\([^\-]*\).*#\1#' <<< "$1$2$3$4$5")
+V=$(sed -e 's#.*\-v=\([^\-]*\).*#\1#' <<< "$1$2$3$4$5")
+M=$(sed -e 's#.*\-m=\([^\-]*\).*#\1#' <<< "$1$2$3$4$5")
+L=$(sed -e 's#.*\-l=\([^\-]*\).*#\1#' <<< "$1$2$3$4$5")
 
 # defaults
 PHP_VERSION=7.4
 DB_IMAGE=mariadb:10.5.8
+LARAVEL_VERSION=8.*
 
 ## p
-if [ ! "$P" == "$1$2$3$4" ]; then
+if [ ! "$P" == "$1$2$3$4$5" ]; then
     WEB_PORT=$P
 fi
 
 ## v (PHP)
-if [ ! "$V" == "$1$2$3$4" ]; then
+if [ ! "$V" == "$1$2$3$4$5" ]; then
     PHP_VERSION=$V
 fi
 
 ## m (db_image)
-if [ ! "$V" == "$1$2$3$4" ]; then
+if [ ! "$M" == "$1$2$3$4$5" ]; then
     DB_IMAGE=$M
 fi
 
@@ -64,23 +66,41 @@ cp "$CURRENT_DIR/site-tinker" ./ && chmod +x site-tinker
 cp "$CURRENT_DIR/site-artisan" ./ && chmod +x site-artisan
 
 # start up containers
-if [ ! "$C" == "$1$2$3$4" ]; then
+if [ ! "$C" == "$1$2$3$4$5" ]; then
     ./site-up -c=$C
 else
     ./site-up
 fi
 
-# run installer, create app (happens as root)
-./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
-./site-ssh -h=web -c="cd /var/www/site/ && composer create-project --prefer-dist laravel/laravel=5.8.* app"
+# If app exists already:
+if [ -d "${PROJECT_DIR}/app" ]; then
+
+    # using an existing laravel app
+    ./site-ssh -h=web -c="cd /var/www/site/app && composer install"
+
+else
+    # creating laravel app by running the installer, create app (happens as root)
+    ./site-ssh -h=web -c="cd /var/www/site/commands && . ./install-laravel-installer"
+    ./site-ssh -h=web -c="cd /var/www/site/ && composer create-project --prefer-dist laravel/laravel=${LARAVEL_VERSION} app"
+
+fi
+
+# ensure good storage
 ./site-ssh -h=web -c='chmod 777 /var/www/site/app/storage -R'
 ./site-ssh -h=web -c='chmod 777 /var/www/site/app/bootstrap -R'
 
 # get back to repo root and change app folder ownership
-cd ../../ && sudo chown $(whoami):$(whoami) app/ -R
+cd "${PROJECT_DIR}" && sudo chown -R $(whoami):$(id -gn $(whoami)) app/
+
+# should we rename this readme
+cd "${PROJECT_DIR}"
+printf "===== README.md - Now that Install is completed, \n we are switching README.md to use PROJECT-README.md. Refer to INSTALL-README.md directly if you continue to need it.\n\n"
+if [ -L README.md ] && [ -e README.md ]; then
+    ln -sfn PROJECT-README.md README.md
+fi
 
 # set back to quick-laravel-guide/commands
-cd commands
+cd "${CURRENT_DIR}"
 
 # set .env up with db entries
 ./show-db-envvars

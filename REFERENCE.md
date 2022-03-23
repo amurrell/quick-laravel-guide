@@ -103,3 +103,17 @@ php artisan optimize #run after to optimize it
 ```
 
 [← README.md](README.md#contents)
+
+---
+
+## Quick Laravel Installer
+
+When this project was installed, it originally was using the [INSTALL-README](INSTALL-README.md). You can review it if you are curious!
+
+Anyway, after install, that readme would not make sense for the rest of the team's setup - and instead the [PROJECT-README.md](PROJECT-README.md) should be used (and edited to reflect your new project and settings)
+
+We are using a symbolic link to make the README.md file switch out after install. Of course you can remove that and rename the files.
+
+**It is highly encouraged that once install is complete, you no longer track against the quick-laravel-guide repo**, and instead add your own git tracking source. Then you can make all the edits you want to the README!
+
+[← README.md](README.md#contents)
