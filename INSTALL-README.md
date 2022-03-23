@@ -66,6 +66,8 @@ cd yourproject/commands
 ./install-quick-laravel # wait! see options!
 ```
 
+> Skip to [Install Options](#install-command-options)
+
 ### Existing Laravel Project
 
 Oh! Okay, that works, too.
