@@ -25,10 +25,10 @@ if [ ! -f  "site-ssh" ]; then
   exit
 fi
 
-WEB_SERVER_ROOT='/var/www/site/app'
+WEB_SERVER_ROOT='/var/www/site/app/public'
 WEB_SERVER_ROOT_FILE="../web-server-root"
 
-if [ ! -f  "${WEB_SERVER_ROOT_FILE}" ]; then
+if [ -f  "${WEB_SERVER_ROOT_FILE}" ]; then
   WEB_SERVER_ROOT=$(<$WEB_SERVER_ROOT_FILE)
 fi
 
