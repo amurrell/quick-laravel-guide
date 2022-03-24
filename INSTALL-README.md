@@ -2,6 +2,8 @@
 
 Create or maintain laravel apps with alternative **local development tool [DockerLocal](https://github.com/amurrell/DockerLocal)**.
 
+Here's an example:
+
 ```
 # Setup
 git clone git@github.com:amurrell/quick-laravel-guide.git yourproject
@@ -17,6 +19,9 @@ git remote remove quick-laravel
 git add -A
 git commit -m "Setup project with quick-laravel-guide"
 git push origin
+
+# Visit your site - note, nothing else can be running on Port 80!
+http://localhost:3030
 ```
 
 
