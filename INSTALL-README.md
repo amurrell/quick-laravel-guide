@@ -162,7 +162,6 @@ Next, add yours & push:
 ```
 git remote add origin git@github.com:youruser/yourproject.git
 git fetch origin
-git push origin
 ```
 
 Delete quick-laravel?
@@ -170,6 +169,29 @@ Delete quick-laravel?
 ```
 git remote remove quick-laravel
 git remote -v #list them all again
+```
+
+You may want to remove quick-laravel commit history too
+
+```
+# create history-less branch
+git checkout --orphan temp_branch
+
+# add all the files
+git add -A
+
+# your initial commit message
+git commit -am "The initial setup of my project, based on quick-laravel-guide"
+
+# delete original branches
+git branch -D master
+git branch -D main
+
+# rename your temp_branch
+git branch -m main
+
+# if you have an origin main, this will force push, with cleared history
+git push -f origin main
 ```
 
 [↑](#contents)
