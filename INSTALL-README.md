@@ -2,6 +2,24 @@
 
 Create or maintain laravel apps with alternative **local development tool [DockerLocal](https://github.com/amurrell/DockerLocal)**.
 
+```
+# Setup
+git clone git@github.com:amurrell/quick-laravel-guide.git yourproject
+cd yourproject/commands
+./install-quick-laravel -l=9.\* -p=3030 -v=8.0 -m=mariadb:10.6
+
+# Add your own repo; remove quick-laravel
+git remote rename origin quick-laravel
+git remote add origin git@github.com:YOU/your-new-repo.git
+git remote remove quick-laravel
+
+# Make all your edits tailored to your project now!
+git add -A
+git commit -m "Setup project with quick-laravel-guide"
+git push origin
+```
+
+
 ### Ideal for:
 
 - setting up a new or existing laravel apps with an **alternative solution (docker containers) for local development**
