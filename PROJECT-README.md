@@ -12,6 +12,13 @@ It is encouraged to update this readme!
     - [DockerLocal Reqs](#dockerlocal-requirements)
     - [Install Command Options](#install-command-options)
     - [Add your own fork](#add-your-own-fork)
+    - [Project Config Requirements:](#project-config-requirements)
+    - [App is running, now setup database connection](#app-is-running-run-migrate-scripts)
+        - [Setup Database Conn in .env](#db-env-vars)
+        - [Run Migrations](#migrate)
+        - [Import SQL](#import-sql)
+        - [Mysql in CLI](#ssh-into-your-db)
+        - [Troubleshoot](#troubleshoot-db-connection)
 - [Reference](REFERENCE.md)
     - [DockerLocal Commands](REFERENCE.md#dockerlocal-commands)
         - [Tinker](REFERENCE.md#tinker)
@@ -103,7 +110,20 @@ git remote -v #list all remotes again to see origin and me
 
 ---
 
-### App is running, run migrate scripts
+## App is running, run migrate scripts
+
+### DB Env Vars
+You need to first setup your database connection in `app/.env`.
+If you ran the installer, at the end of the script it will have told you the env vars. If you forgot, you can see them here:
+
+```
+cd your-project/commands
+./show-db-envvars
+```
+
+Copy the values into your `app/.env`.
+
+### Migrate
 
 Test your database connection by running the migration scripts (resources/database/migrations) (after editing your app/.env file to db connection info).
 
@@ -114,11 +134,59 @@ cd app
 php artisan migrate
 ```
 
+### Import SQL
+
+Have an existing database dump file to import?
+
+```
+cd DockerLocal/data/dumps
+# cp your downloaded .sql file into this folder
+# cp ~/Downloads/my.sql ./
+
+cd ../../commands # DockerLocal/commands
+./site-db -i=name_of_local_db -f=my.sql
+
+# i = what you started this with -c=my_db, which can be seen in DockerLocal/database. If doesn't exist, run ./site-up -c=my_db first!
+# f = your sql file
+```
+
+> For more database commands, you can refer to the [DockerLocal documentation](https://github.com/amurrell/DockerLocal#database-commands).
+
+### SSH into your DB
+
+You can also ssh into your database and run commands there:
+
+```
+cd DockerLocal/commands
+./site-ssh -h=mysql
+show databases;
+use yourdb;
+```
+
+### Troubleshoot
+
+If your DB is constantly restarting (perhaps from trying a bunch of different versions out):
+
+```
+cd DockerLocal/commands
+./site-down
+
+docker volume ls
+
+# look for one that matches the pattern
+# `dockerlocal<PORT>_mysql-data-<PORT>`
+
+docker volume rm dockerlocal3040_mysql-data-3040
+
+./site-up
+```
+
+
 [↑](#contents)
 
 ---
 
-### Shutdown & Startup
+## Shutdown & Startup
 
 You can turn this project off with: `./site-down`
 

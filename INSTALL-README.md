@@ -41,6 +41,13 @@ http://localhost:3030
     - [Existing Laravel Project?](#existing-laravel-project)
     - [Install Command Options](#install-command-options)
     - [Add your own Repo](#add-your-own-repo)
+    - [Project Config Requirements:](#project-config-requirements)
+    - [App is running, now setup database connection](#app-is-running-run-migrate-scripts)
+        - [Setup Database Conn in .env](#db-env-vars)
+        - [Run Migrations](#migrate)
+        - [Mysql in CLI](#ssh-into-your-db)
+        - [Troubleshoot](#troubleshoot-db-connection)
+    - [Shutdown & Startup](#shutdown--startup)
 - [Reference](REFERENCE.md)
     - [DockerLocal Commands](REFERENCE.md#dockerlocal-commands)
         - [Tinker](REFERENCE.md#tinker)
@@ -179,7 +186,21 @@ git remote -v #list them all again
 
 ---
 
-### App is running, run migrate scripts
+## App is running, run migrate scripts
+
+### DB Env Vars
+You need to first setup your database connection in `app/.env`.
+If you ran the installer, at the end of the script it will have told you the env vars. If you forgot, you can see them here:
+
+```
+cd your-project/commands
+./show-db-envvars
+```
+
+Copy the values into your `app/.env`.
+
+
+### Migrate
 
 Test your database connection by running the migration scripts (resources/database/migrations) (after editing your app/.env file to db connection info).
 
@@ -189,3 +210,60 @@ cd your-repo/DockerLocal/commands
 cd app
 php artisan migrate
 ```
+
+### SSH into your DB
+
+You can also ssh into your database and run commands there:
+
+```
+cd DockerLocal/commands
+./site-ssh -h=mysql
+show databases;
+use yourdb;
+```
+
+### Troubleshoot DB Connection
+
+If your DB is constantly restarting (perhaps from trying a bunch of different versions out):
+
+```
+cd DockerLocal/commands
+./site-down
+
+docker volume ls
+
+# look for one that matches the pattern
+# `dockerlocal<PORT>_mysql-data-<PORT>`
+
+docker volume rm dockerlocal3040_mysql-data-3040
+
+./site-up
+```
+
+---
+
+## Shutdown & Startup
+
+You can turn this project off with: `./site-down`
+
+Turn the project on again with: `./site-up` (note, [re-run nvm-pm2](https://github.com/amurrell/DockerLocal#dockerlocalecosystemconfigjs) if using that)
+
+In addition, see other [common DockerLocal commands](REFERENCE.md#dockerlocal-commands).
+
+**Troubleshoot**
+
+1. Try `./site-down` before doing `./site-up`
+
+    If you run into issues not being able to ./site-up without errors or containers failing, then run `./site-down` first.
+
+    Sometimes even though it seems like DockerLocal is off (ex: from rebooting your machine), not all containers were properly shutdown (like ones controlling shared volumes and network bridge.) Doing a `./site-down` will ensure that everything got turned off and can then be turned back on.
+
+2. Try `./site-up` twice
+
+    If you have ran `./site-down` and your `./site-up` command fails, try running `./site-up` one more time, after confirming that your ProxyLocal is running.
+
+    This could be needed due to both your ProxyLocal and DockerLocal being shut off. The site-up command will try to bring ProxyLocal back up for you.
+
+    This could create a race condition where DockerLocal is trying to load before ProxyLocal is fully done starting.
+
+[↑](#contents)
